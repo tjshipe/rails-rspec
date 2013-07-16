@@ -2,7 +2,10 @@ require 'spec_helper'
 
 describe 'Admin' do
   context "on admin homepage" do
-    it "can see a list of recent posts"
+    it "can see a list of recent posts" do
+      expect(page).to have_content(posts)
+    end
+
     it "can edit a post by clicking the edit link next to a post"
     it "can delete a post by clicking the delete link next to a post"
     it "can create a new post and view it" do

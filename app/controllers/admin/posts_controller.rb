@@ -1,5 +1,10 @@
 class Admin::PostsController < ApplicationController
+  USER, PASSWORD = 'geek', 'jock'
+
+  before_filter :authentication_check, :only => [:index]
+
   def index
+
     @posts = Post.all
   end
 
@@ -42,4 +47,11 @@ class Admin::PostsController < ApplicationController
 
     redirect_to admin_posts_url
   end
+
+  private
+    def authentication_check
+      authenticate_or_request_with_http_basic do |user, password|
+        user == USER && password == PASSWORD
+      end
+    end
 end
