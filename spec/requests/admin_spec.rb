@@ -2,12 +2,27 @@ require 'spec_helper'
 
 describe 'Admin' do
   context "on admin homepage" do
-    it "can see a list of recent posts" do
-      expect(page).to have_content(posts)
+
+    before do
+      @post = Post.create(title: "This is a title!", content: "This is some content...")
+      page.driver.browser.authorize 'geek', 'jock'
+      visit admin_posts_url
     end
 
-    it "can edit a post by clicking the edit link next to a post"
-    it "can delete a post by clicking the delete link next to a post"
+    it "can see a list of recent posts" do
+      page.should have_content("All posts:")
+    end
+
+    it "can edit a post by clicking the edit link next to a post" do
+      click_link "Edit"
+      current_path.should eq edit_admin_post_path(@post)
+    end
+
+    it "can delete a post by clicking the delete link next to a post" do
+      click_link "Delete"
+      current_path.should eq admin_post_path(@post)
+    end
+    
     it "can create a new post and view it" do
        visit new_admin_post_url
 
